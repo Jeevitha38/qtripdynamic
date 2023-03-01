@@ -39,7 +39,15 @@ function addCityToDOM(id, city, description, image) {
   let parent = document.getElementById("data");
   let child = document.createElement("div");
   child.className = "col-6 col-md-4 col-lg-3 mb-5";
-  child.innerHTML =  `<a href = "./pages/adventures/?city=${id}" id = ${id}>      <div class = "tile">        <div class = "tile-text text-center">          <h5>${city}</h5>          <p>${description}</p>        </div>        <img src = ${image}>      </div>   </a>`;
+  child.innerHTML =  `<a href = "./pages/adventures/?city=${id}" id = ${id}> 
+       <div class = "tile">       
+        <div class = "tile-text text-center"> 
+                 <h5>${city}</h5>         
+                  <p>${description}</p>      
+          </div>       
+           <img src = ${image}>      
+        </div>   
+        </a>`;
   parent.appendChild(child);
 }
 
