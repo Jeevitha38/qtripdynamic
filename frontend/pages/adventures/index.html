@@ -161,8 +161,12 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
             // 2. Invoke saveFiltersToLocalStorage here
-            document.getElementById('data').textContent="";
-            document.getElementById("duration-select").selectedIndex = 0;
+             document.getElementById('data').textContent="";
+        document.getElementById("duration-select").selectedIndex = 0;
+            filters["duration"] = "";
+            let filteredAdventures = filterFunction(adventures, filters);
+
+            addAdventureToDOM(filteredAdventures);
             saveFiltersToLocalStorage(filters);
            
         }
