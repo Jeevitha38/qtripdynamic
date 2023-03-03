@@ -5,6 +5,7 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   const url=new URLSearchParams(search);
   const cityid=url.get("city")
+  //console.log(cityid)
   return cityid;
 
   // TODO: MODULE_ADVENTURES
