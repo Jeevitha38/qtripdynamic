@@ -101,6 +101,17 @@ images.forEach((key,id)=>{
 function conditionalRenderingOfReservationPanel(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If the adventure is already reserved, display the sold-out message.
+  if(adventure.available){
+    document.getElementById("reservation-panel-sold-out").style.display = "none";
+    document.getElementById("reservation-panel-available").style.display = "block";
+    // block if it should be visible and none if it should be hidden
+    document.getElementById("reservation-person-cost").innerHTML = adventure.costPerHead;
+  }
+  else{
+    document.getElementById("reservation-panel-sold-out").style.display = "block";
+    document.getElementById("reservation-panel-available").style.display = "none";
+  }
+
 
 }
 
@@ -108,6 +119,8 @@ function conditionalRenderingOfReservationPanel(adventure) {
 function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // TODO: MODULE_RESERVATIONS
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
+  let cost=adventure.costPerHead*persons;
+  document.getElementById('reservation-cost').innerHTML=cost;
 
 }
 
@@ -116,13 +129,53 @@ function captureFormSubmit(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. Capture the query details and make a POST API call using fetch() to make the reservation
   // 2. If the reservation is successful, show an alert with "Success!" and refresh the page. If the reservation fails, just show an alert with "Failed!".
-}
+  let form=document.getElementById('myForm')
+  form.addEventListener("submit", async(event)=>{
+    //the event parameter contains info about the submisssion
+    event.preventDefault();
+ // Inside the function, the first line calls the "preventDefault" method of the event object. This method prevents the default form submission behavior from occurring, which usually involves the browser navigating to a new page or refreshing the current page. By calling "preventDefault", we can keep the user on the current page and handle the form submission ourselves using JavaScript.
+
+// After calling "preventDefault", you could add code to read the values of form fields, validate user input, and send the data to a server using AJAX or another technique. The asynchronous nature of the function allows you to perform these tasks without blocking the user interface, so that the page remains responsive and interactive during the submission process.
+    let sendData = {
+      name: form.elements["name"].value,
+      date: form.elements["date"].value,
+      person: form.elements["person"].value,
+      adventure: adventure.id    }
+      const options = { 
+        //options obj is sent with POST as method as we are going to post some data
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        //meaning the content will be of json type
+        },
+        body: JSON.stringify(sendData),
+        //json string representation is the type of the body which is the 'senddata' oject which gets the value of name, date, person
+        };
+        try{
+          let post = fetch(config.backendEndpoint + "/reservations/new", options);
+          //as usual fetch contains 2 values - the url and the value
+          alert("Success!");
+          location.reload(); //reloads the current page 
+        }
+        catch{
+          alert("Failure!");
+        }
+    });
+  }
+  
+  
 
 //Implementation of success banner after reservation
 function showBannerIfAlreadyReserved(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If user has already reserved this adventure, show the reserved-banner, else don't
-
+  let banner = document.getElementById("reserved-banner");
+  if(adventure.reserved){
+    banner.style.display = "block";
+  }
+  else{
+    banner.style.display = "none";
+  }
 }
 
 export {
